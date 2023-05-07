@@ -18,16 +18,18 @@ PIN_ALARM5 = 4
 
 ALARM_START = 0
 ALARM_END = 4
-START_ALARM = 'StartAlarm'
-STOP_ALARM = 'StopAlarm'
+START_ALARM = "StartAlarm"
+STOP_ALARM = "StopAlarm"
 
-alarm_instruction = ''
+alarm_instruction = ""
+
 
 def onTCPNewClient(client):
-    """ToDo """
+    """ToDo"""
+
     def onTCPConnectionChange(type):
         print("connection to " + client.remoteIP() + " changed to state " + str(type))
-        
+
     def onTCPReceive(data):
         global alarm_instruction
         print("received from " + client.remoteIP() + " with data: " + data)
@@ -36,23 +38,23 @@ def onTCPNewClient(client):
     client.onConnectionChange(onTCPConnectionChange)
     client.onReceive(onTCPReceive)
 
+
 def alarm_control():
-    """ToDo """
+    """ToDo"""
     if alarm_instruction == START_ALARM:
         for alarm in range(ALARM_START, ALARM_END + 1):
             digitalWrite(alarm, HIGH)
-        delay(50)    
+        delay(50)
         for alarm in range(ALARM_START, ALARM_END + 1):
             digitalWrite(alarm, LOW)
 
-    
     if alarm_instruction == STOP_ALARM:
         for alarm in range(ALARM_START, ALARM_END + 1):
             digitalWrite(alarm, LOW)
 
-    
+
 def main():
-    """ToDo """
+    """ToDo"""
     server.onNewClient(onTCPNewClient)
     print(server.listen(port))
 
@@ -60,6 +62,7 @@ def main():
     while True:
         alarm_control()
         sleep(1)
+
 
 if __name__ == "__main__":
     main()
