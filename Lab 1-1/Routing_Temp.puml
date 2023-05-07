@@ -1,0 +1,35 @@
+@startuml
+    class PC1{
+        IP: "192.168.100.4"
+        }
+    class SBC1{
+        IP: "192.168.100.3"
+        }
+    class Switch1{
+        IP: "192.168.100.2"
+        }
+    class Router1{
+        IP: "192.168.100.1"
+        IP: "ABC"
+        }class PC2{
+        IP: "192.168.100.4"
+        }
+    class SBC2{
+        IP: "192.168.100.3"
+        }
+    class Switch2{
+        IP: "192.168.100.2"
+        }
+    class Router2{
+        IP: "192.168.100.1"
+        IP: "ABC"
+        }
+    PC2 --> Switch2
+    SBC2 --> Switch2
+    Switch2 --> Router2
+    Router2 --> WanSwitch1
+    PC1 --> Switch1
+    SBC1 --> Switch1
+    Switch1 --> Router1
+    Router1 --> WanSwitch1
+@enduml

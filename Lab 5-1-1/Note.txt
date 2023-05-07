@@ -1,0 +1,5 @@
+Open in NP++
+Find/Replace
+Find: /t
+Rplace: [4 spaces]
+Hhave "Extended" turned on!

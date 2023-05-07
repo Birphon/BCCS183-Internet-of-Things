@@ -1,0 +1,286 @@
+Switch1 config
+en
+config t
+hostname Switch1
+banner motd $Authorised staff only$
+no ip domain-lookup
+enable secret Cisco
+service password-encryption
+ip default-gateway 192.168.100.1
+line console 0
+password Cisco
+login
+exit
+interface vlan1
+ip address 192.168.100.2 255.255.255.192
+no shutdown
+exit
+interface range f0/3-24 , g0/2
+desc Unused
+shutdown
+exit 
+interface f0/1
+desc PC
+no shutdown
+exit 
+interface f0/2
+desc SBC
+no shutdown
+exit
+interface g0/1
+desc Router
+no shutdown
+exit
+exit
+copy running-config startup-config
+
+Router1 Config
+en
+config t
+hostname Router1
+banner motd $Authorised staff only$
+no ip domain-lookup
+enable secret Cisco
+service password-encryption
+password Cisco
+login
+exit
+interface g0/0
+desc LAN
+ip address 192.168.100.1 255.255.255.192
+no shutdown
+exit
+interface g0/1
+desc WAN
+ip address 192.168.100.121 255.255.255.248
+no shutdown
+exit
+ip route 192.168.100.65 255.255.255.224 192.168.100.122 
+ip route 192.168.100.97 255.255.255.240 192.168.100.123 
+ip route 192.168.100.113 255.255.255.248 192.168.100.124 
+exit
+copy running-config startup-config
+
+Switch2 config
+en
+config t
+hostname Switch2
+banner motd $Authorised staff only$
+no ip domain-lookup
+enable secret Cisco
+service password-encryption
+ip default-gateway 192.168.100.65
+line console 0
+password Cisco
+login
+exit
+interface vlan1
+ip address 192.168.100.66 255.255.255.224
+no shutdown
+exit
+interface range f0/3-24 , g0/2
+desc Unused
+shutdown
+exit 
+interface f0/1
+desc PC
+no shutdown
+exit 
+interface f0/2
+desc SBC
+no shutdown
+exit
+interface g0/1
+desc Router
+no shutdown
+exit
+exit
+copy running-config startup-config
+
+Router2 Config
+en
+config t
+hostname Router2
+banner motd $Authorised staff only$
+no ip domain-lookup
+enable secret Cisco
+service password-encryption
+password Cisco
+login
+exit
+interface g0/0
+desc LAN
+ip address 192.168.100.65 255.255.255.224
+no shutdown
+exit
+interface g0/1
+desc WAN
+ip address 192.168.100.122 255.255.255.248
+no shutdown
+exit
+ip route 192.168.100.1 255.255.255.192 192.168.100.121 
+ip route 192.168.100.97 255.255.255.240 192.168.100.123 
+ip route 192.168.100.113 255.255.255.248 192.168.100.124 
+exit
+copy running-config startup-config
+
+Switch3 config
+en
+config t
+hostname Switch3
+banner motd $Authorised staff only$
+no ip domain-lookup
+enable secret Cisco
+service password-encryption
+ip default-gateway 192.168.100.97
+line console 0
+password Cisco
+login
+exit
+interface vlan1
+ip address 192.168.100.98 255.255.255.240
+no shutdown
+exit
+interface range f0/3-24 , g0/2
+desc Unused
+shutdown
+exit 
+interface f0/1
+desc PC
+no shutdown
+exit 
+interface f0/2
+desc SBC
+no shutdown
+exit
+interface g0/1
+desc Router
+no shutdown
+exit
+exit
+copy running-config startup-config
+
+Router3 Config
+en
+config t
+hostname Router3
+banner motd $Authorised staff only$
+no ip domain-lookup
+enable secret Cisco
+service password-encryption
+password Cisco
+login
+exit
+interface g0/0
+desc LAN
+ip address 192.168.100.97 255.255.255.240
+no shutdown
+exit
+interface g0/1
+desc WAN
+ip address 192.168.100.123 255.255.255.248
+no shutdown
+exit
+ip route 192.168.100.1 255.255.255.192 192.168.100.121 
+ip route 192.168.100.65 255.255.255.224 192.168.100.122
+ip route 192.168.100.113 255.255.255.248 192.168.100.124 
+exit
+copy running-config startup-config
+
+Switch4 config
+en
+config t
+hostname Switch4
+banner motd $Authorised staff only$
+no ip domain-lookup
+enable secret Cisco
+service password-encryption
+ip default-gateway 192.168.100.113
+line console 0
+password Cisco
+login
+exit
+interface vlan1
+ip address 192.168.100.114 255.255.255.248
+no shutdown
+exit
+interface range f0/3-24 , g0/2
+desc Unused
+shutdown
+exit 
+interface f0/1
+desc PC
+no shutdown
+exit 
+interface f0/2
+desc SBC
+no shutdown
+exit
+interface g0/1
+desc Router
+no shutdown
+exit
+exit
+copy running-config startup-config
+
+Router4 Config
+en
+config t
+hostname Router4
+banner motd $Authorised staff only$
+no ip domain-lookup
+enable secret Cisco
+service password-encryption
+password Cisco
+login
+exit
+interface g0/0
+desc LAN
+ip address 192.168.100.113 255.255.255.240
+no shutdown
+exit
+interface g0/1
+desc WAN
+ip address 192.168.100.124 255.255.255.248
+no shutdown
+exit
+ip route 192.168.100.1 255.255.255.192 192.168.100.121 
+ip route 192.168.100.65 255.255.255.224 192.168.100.122
+ip route 192.168.100.97 255.255.255.240 192.168.100.123 
+exit
+copy running-config startup-config
+
+WanSwitch config
+en
+config t
+hostname WanSwitch
+banner motd $Authorised staff only$
+no ip domain-lookup
+enable secret Cisco
+service password-encryption
+line console 0
+password Cisco
+login
+exit
+interface range f0/5-24 , g0/2
+desc Unused
+shutdown
+exit 
+interface f0/1
+desc Router1
+no shutdown
+exit
+interface f0/2
+desc Router2
+no shutdown
+exit
+interface f0/3
+desc Router3
+no shutdown
+exit
+interface f0/4
+desc Router4
+no shutdown
+exit
+exit
+copy running-config startup-config
