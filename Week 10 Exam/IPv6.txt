@@ -1,0 +1,21 @@
+Router: G0/0 - G0/1
+PC1 -> G0/0
+PC2 -> G0/1
+
+2001:DB8:DB::/48
+    G0/0 -> 2001:DB8:DB:1::1/64
+        Link Local: FE80::1:X
+    G0/1 -> 2001:DB8:DB:2::1/64
+        Link Local: FE80::1
+    PC1  -> 2001:DB8:DB:1::2/64
+        Default Gateway: FE80::1
+    PC2  -> 2001:DB8:DB:2::2/64
+        Default Gateway: FE80::1
+
+
+Router CLI:
+    Enable IPv6 Routing:
+        ipv6 unicast-routing
+
+Cisco Commands:
+    #banner motd #Unauthorized access to this device is prohibited!#
