@@ -46,7 +46,7 @@ def onHTTPDone(status, data):
     j_data = loads(data)
     # print(data)
     # aqi = j_data['list'][0]['main']['aqi']
-    c_data = j_data['list'][0]['components']['co']
+    # c_data = j_data['list'][0]['components']['co']
     c_data = 2000
     aqi = 1
     data_carbon = c_data
