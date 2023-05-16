@@ -1,0 +1,7 @@
+garage controller SBC:
+    The password doesn't seem to get pulled
+    "States" don't change - Most likely because of above
+
+garage controller SBC - round 2:
+    something broke lmao
+        HTML isn't loading

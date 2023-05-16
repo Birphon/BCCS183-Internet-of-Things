@@ -102,6 +102,8 @@ def main():
     server = RealHTTPServer()
     print("Server started: {}".format(server.start(LOCAL_PORT)))
     server.route("*", ["GET", "POST"], garage_control)
+    server.route("/login", ["GET"], garage_control)
+    server.route("/login", ["POST"], garage_control)
 
     while True:
         # Handle events
