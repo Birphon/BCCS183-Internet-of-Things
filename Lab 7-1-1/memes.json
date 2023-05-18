@@ -1,0 +1,82 @@
+# Handling nested objects from json
+import json
+weather_report_from_the_telly = '{"Weather":[{"ReportNumber": 1,"Temperature":"Hot","Humidity":"Like a steam room","Clouds":"Fluffy things in the sky","Precipitation":"Cats and dogs","personEmail":"Dave.Bracken@ara.ac.nz","created":"2023-04-05T09:00:00.000Z"}]}'
+# Pasting the json above into https://jsonformatter.org/ shows
+##{
+##  "Weather": [
+##    {
+##      "ReportNumber": 1,
+##      "Temperature": "Hot",
+##      "Humidity": "Like a steam room",
+##      "Clouds": "Fluffy things in the sky",
+##      "Precipitation": "Cats and dogs",
+##      "personEmail": "Dave.Bracken@ara.ac.nz",
+##      "created": "2023-04-05T09:00:00.000Z"
+##    }
+##  ]
+##}
+weather_data = json.loads(weather_report_from_the_telly)
+# Look at the first character in the weather_report_from_the_telly string.
+# It's a {
+# If we aren't sure what type of object involves a {, let's use type
+print(type(weather_data))
+# So, it's a <class 'dict'>
+# That means we need to use the key.
+print(weather_data['Weather'])
+# That shows
+#[{'ReportNumber': 1, 'Temperature': 'Hot', 'Humidity': 'Like a steam room', 'Clouds': 'Fluffy things in the sky', 'Precipitation': 'Cats and dogs', 'personEmail': 'Dave.Bracken@ara.ac.nz', 'created': '2023-04-05T09:00:00.000Z'}]
+# Look at the first character in the output.  It shows a [
+# If we aren't sure what type of object involves a [, let's use type
+print(type(weather_data['Weather']))
+# So, it's a <class 'list'>
+# That means we need an index
+# Indices in computing start at 0
+print()
+print(weather_data['Weather'][0])
+# That shows
+# {'ReportNumber': 1, 'Temperature': 'Hot', 'Humidity': 'Like a steam room', 'Clouds': 'Fluffy things in the sky', 'Precipitation': 'Cats and dogs', 'personEmail': 'Dave.Bracken@ara.ac.nz', 'created': '2023-04-05T09:00:00.000Z'}
+# Look at the first character in the output.  It shows a {
+# If we aren't sure what type of object involves a {, let's use type
+print(type(weather_data['Weather'][0]))
+# So, it's a <class 'dict'>
+# That means we need to use the key.
+#Let's have a look at what keys are available
+print('\nThe keys in the dictionary are:')
+for weather_key in weather_data['Weather'][0]:
+    print(weather_key)
+# That shows
+# ReportNumber
+# Temperature
+# Humidity
+# Clouds
+# Precipitation
+# personEmail
+# created
+# Let's get the humidity reading
+current_humidity = weather_data['Weather'][0]['Humidity']
+print(f'\nThe current humidity is: {current_humidity}')
+# No uncertainty there then
+# Let's get the cloud reading
+current_clouds = weather_data['Weather'][0]['Clouds']
+print(f'\nThe clouds are: {current_clouds}')
+# Good to hear the clouds are in the right place
+
+<class 'dict'>
+[{'ReportNumber': 1, 'Temperature': 'Hot', 'Humidity': 'Like a steam room', 'Clouds': 'Fluffy things in the sky', 'Precipitation': 'Cats and dogs', 'personEmail': 'Dave.Bracken@ara.ac.nz', 'created': '2023-04-05T09:00:00.000Z'}]
+<class 'list'>
+
+{'ReportNumber': 1, 'Temperature': 'Hot', 'Humidity': 'Like a steam room', 'Clouds': 'Fluffy things in the sky', 'Precipitation': 'Cats and dogs', 'personEmail': 'Dave.Bracken@ara.ac.nz', 'created': '2023-04-05T09:00:00.000Z'}
+<class 'dict'>
+
+The keys in the dictionary are:
+ReportNumber
+Temperature
+Humidity
+Clouds
+Precipitation
+personEmail
+created
+
+The current humidity is: Like a steam room
+
+The clouds are: Fluffy things in the sky

@@ -1,0 +1,28 @@
+Door Closed + Alarm Enabled
+    -> Correct Password
+        -> Door Open + Alarm Disabled
+        -> "Door: Open\nAlarm Disabled"
+    -> Incorrect Password
+        -> Door Closed + Alarm Enabled
+        -> "Door: Closed\nAlarm Enabled"
+
+Door Closed + Alarm Disabled
+    -> Alarm On
+    -> Correct Password
+        -> Door Open + Alarm Disabled
+        -> "Door: Open\nAlarm Disabled"
+    -> Incorrect Password
+        -> Door Closed + Alarm Enabled
+        -> "Door: Closed\nAlarm Enabled"
+
+Door Open + Alarm Enabled
+    -> Alarms On
+    -> Correct Password
+        -> Door Open + Alarm Disabled
+        -> "Door: Open\nAlarm Disabled"
+    -> Incorrect Password
+        -> Door Closed + Alarm Enabled
+        -> "Door: Closed\nAlarm Enabled"
+
+Door Open + Alarm Disabled
+    -> Defaults Alarm Enabled
