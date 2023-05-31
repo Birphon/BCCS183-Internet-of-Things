@@ -1,8 +1,7 @@
-from realhttp import *
-from time import *
-from gpio import *
+from time import sleep
 from file import *
-
+from gpio import *
+from realhttp import *
 
 # Constants
 PORT = 8765
@@ -41,21 +40,28 @@ lcd_message = ''
 door_state = None
 entered_password = ''
 html_template = ''
-redirect = 'Redirecting you to http://127.0.0.1:8765/status'
-endis = 'Click <a href="http://127.0.0.1:8765/login">here</a> to enable/disable the alarm'
-close = 'Click <a href="http://127.0.0.1:8765/close_door">here</a> to close the door'
 
 def startup():
     global door_state, alarm_status
     current_door_state = customRead(PIN_DOOR_STATUS)
-    print(current_door_state)
     door_state = bool(int(current_door_state))
-    print(door_state)
     alarm_status = True
     digitalWrite(PIN_ALARM, LOW)
 
+def ip_setter(context, request, reply):
+    global redirect, endis, close
+    redirect = 'Redirecting you to {ip_addr}/show_status'.format(request.ip())
+    endis = 'Click <a href="{ip_addr}/login">here</a> to enable/disable the alarm'.format(request.ip())
+    close = 'Click <a href="{ip_addr}/close_door">here</a> to close the door'.format(request.ip())
+    return redirect, endis, close
+
+def redirect_to_status(reply):
+    reply.setHeader("Refresh", "3;URL='/show_status'")
+    reply.setStatus(301)
+    reply.end()
+
 def show_home(context, request, reply):
-    reply_msg = REPLY_TEMP.format('http://127.0.0.1:8765/status', redirect, '', '', '')
+    reply_msg = REPLY_TEMP.format('http://127.0.0.1:8765/show_status', redirect, '', '', '')
     reply.setContent(reply_msg)
     reply.setStatus(200)
     reply.end()
@@ -68,8 +74,12 @@ def show_status(context, request, reply):
     reply.end()
 
 def close_door(context, request, reply):
-    door_state = False
-    reply_msg = REPLY_TEMP.format('', 'Closing the door...', '', '', '')
+    global door_state
+    if door_state:
+        door_state = False
+        reply_msg = REPLY_TEMP.format('http://127.0.0.1:8765/show_status', '', '', '', '')
+    else:
+        reply_msg = REPLY_TEMP.format('http://127.0.0.1:8765/show_status', RESTRICT_MSG, '', '', '')
     reply.setContent(reply_msg)
     reply.setStatus(200)
     reply.end()
@@ -78,13 +88,11 @@ def show_login(context, request, reply):
     global entered_password, alarm_status, door_state
     request_method = request.method()
     msg_body = request.body()
-    print('request.method(): {}\n'.format(request_method))
     
     if request_method == HTTP_GET_METHOD:
-        file_handle = open(FILENAME, READ_MODE) 
+        file_handle = open(FILENAME, READ_MODE)
         html_template = ''
         val = ' '
-        print(val)
         while val != '':
             val = file_handle.readline()
             if val != '':
@@ -94,22 +102,20 @@ def show_login(context, request, reply):
             reply_msg = html_template.format('Enable', 'Enable')
         else:
             reply_msg = html_template.format('Disable', 'Disable')
-            
+
     elif request_method == HTTP_POST_METHOD:
         entered_password = msg_body.replace('password=', '')
-        print(entered_password)
         if door_state == True and alarm_status == False:
             reply_msg = REPLY_TEMP.format('', RESTRICT_MSG, '', '', '')
         elif entered_password == CORRECT_PASSWORD:
             alarm_status = not alarm_status
-            reply_msg = REPLY_TEMP.format('http://127.0.0.1:8765/status', '', '', '', '')
+            reply_msg = REPLY_TEMP.format('http://127.0.0.1:8765/show_status', '', '', '', '')
         else:
-            reply_msg = REPLY_TEMP.format('http://127.0.0.1:8765/status', BAD_PASS, '', '', '')
-    
+            reply_msg = REPLY_TEMP.format('http://127.0.0.1:8765/show_status', BAD_PASS, '', '', '')
+
     reply.setContent(reply_msg)
     reply.setStatus(200)
     reply.end()
-    
 
 def door_message():
     global door_msg
@@ -126,12 +132,10 @@ def alarm_message():
     else:
         alarm_msg = 'Alarm disabled.'
     return alarm_msg
-        
 
-def manual_door_control():
+def manual_door_control(channel):
     global door_state
     door_state = not door_state
-    
 
 def alarm_on():
     if door_state == True and alarm_status == True:
@@ -139,28 +143,17 @@ def alarm_on():
     elif alarm_status == False:
         digitalWrite(PIN_ALARM, LOW)
 
-def redirect_to_status(reply):
-    reply.setHeader("Refresh", "3;URL='/show_status'")
-    reply.setStatus(301)
-    reply.end()
-
-def redirect_to_login(reply):
-    reply.setHeader("Refresh", "3;URL='/login'")
-    reply.setStatus(301)
-    reply.end()
-
 def main():
     global lcd_message
     startup()
     door_message()
     server = RealHTTPServer()
-    print('Server started: '.format(server.start(PORT)))
+    print('Server started: {}'.format(server.start(PORT)))
     server.route("/login", ["GET", "POST"], show_login)
-    server.route("/status", ["GET"], show_status)
+    server.route("/show_status", ["GET"], show_status)
     server.route("/close_door", ["GET"], close_door)
     server.route("/", ["GET"], show_home)
-    server.route("/.*", ["GET"], redirect_to_status)  # Redirect all other URLs to status page
-    
+
     while True:
         alarm_msg = alarm_message()
         door_message()

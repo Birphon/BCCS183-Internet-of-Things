@@ -1,0 +1,67 @@
+Implement the functionality to close the garage door via the browser.
+
+    Create a new IoT connector to connect the SBC with the garage door.
+    Configure the new connector to allow the SBC to issue a request to the door for it to close.
+    Test the connection and ensure that the door can be closed successfully.
+
+Update the web interface layout.
+
+    Ensure that the layout remains the same as the previous stage.
+    Add an additional IoT connector to the existing layout to represent the connection with the garage door.
+
+Update the web interface to display the door status automatically.
+    Update the existing code to include the new URL: http://127.0.0.1:8765/show_status.
+    Implement the redirection functionality, so any non-implemented URL is redirected to http://127.0.0.1:8765/show_status.
+    Test the web interface to verify that it automatically updates with the door status.
+
+Implement the functionality to close the door using Alt-clicking or a specific link with a password.
+    Add a link on the show_status page to allow the door to be closed.
+    Implement the logic to check for the correct password before closing the door.
+    If an incorrect password is entered, display an error message to the user and redirect them back to the show_status page after a few seconds.
+    If the correct password is entered, inform the user that the garage door is closing, and redirect them to the show_status page after a few seconds.
+    Test the functionality by closing the door using Alt-clicking and the link with the password.
+
+Handle the case when the door needs to be closed before enabling/disabling the alarm.
+    If the door is manually opened by Alt-clicking, and the user clicks on the enable/disable alarm link on the show_status page, display a warning message that the door needs to be closed first.
+    Display the message for a few seconds and automatically redirect the user to the show_status page.
+    Verify that the door is still shown as open in the updated status.
+
+Implement the functionality to enable/disable the alarm.
+    Add a link on the show_status page to enable/disable the alarm.
+    Implement the logic to check for the correct password before enabling/disabling the alarm.
+    If an incorrect password is entered, display an error message to the user and redirect them back to the show_status page after a few seconds.
+    If the correct password is entered, immediately redirect the user to the show_status page where the enabled alarm status can be seen.
+    Verify that the status is shown in the LCD.
+
+Update the web interface to trigger the alarm when the door is opened.
+    Implement the logic to detect when the door is opened (Alt-clicked) and trigger the alarm.
+    Ensure that the alarm status is automatically updated on the show_status page.
+
+Implement the functionality to disable the alarm before closing the door.
+    If the user attempts to close the door with the alarm enabled, display a message informing them that the alarm needs to be disabled first.
+    After a few seconds, automatically redirect the user to the show_status page.
+    Add a link to enable/disable the alarm, and implement the logic to check the correct password before enabling/disabling it.
+    If the correct password is entered, automatically redirect the user to the show_status page where the disabled alarm status can be seen.
+    Verify that the alarm indicator is off and the LCD shows the current state.
+
+Update the web interface to allow closing the door only if it is open.
+
+    If the user clicks on the close door link on the show_status page and the door is closed, display a message informing them that the door is not open.
+    After a few seconds, automatically redirect the user to the show_status page.
+    Test the functionality by attempting to close the door when it is closed.
+
+Apply code requirements.
+    Ensure that all objects are appropriately typed and named.
+    Include comments in the code for better understanding.
+    Add docstrings to functions to provide descriptions and usage information.
+
+Experiment and test the code in a separate instance of PacketTracer.
+    Use the provided code in the section of Moodle for customizing the garage door.
+    Apply the same approach to the Stage 3 code once you can successfully close the door from the SBC.
+    Test the code thoroughly to ensure it functions as intended.
+
+Create more HTML files for the web interface.
+    Modify existing HTML files slightly to create additional pages.
+    This will help in implementing the required functionality and improving the user experience.
+
+Remember to proceed with these steps while keeping the overall architecture and requirements of the project in mind.

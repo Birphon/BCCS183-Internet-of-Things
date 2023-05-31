@@ -1,8 +1,8 @@
-from realhttp import *
 from time import *
-from gpio import *
-from file import *
 
+from file import *
+from gpio import *
+from realhttp import *
 
 # Constants
 PORT = 8765
@@ -53,6 +53,11 @@ def startup():
     print(door_state)
     alarm_status = True
     digitalWrite(PIN_ALARM, LOW)
+
+def redirect_to_status(reply):
+    reply.setHeader("Refresh", "3;URL='/show_status'")
+    reply.setStatus(301)
+    reply.end()
 
 def show_home(context, request, reply):
     reply_msg = REPLY_TEMP.format('http://127.0.0.1:8765/show_status',redirect, '','','')
