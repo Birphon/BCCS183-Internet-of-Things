@@ -1,0 +1,93 @@
+Marking Guide
+
+Marking task 	Marks
+Descriptive object names 	2 marks
+Appropriate object types used 	1 mark
+Adequate and appropriate dosctrings and comments 	2 marks
+The number of free pc's are displayed as per the specification
+	15 marks 
+  	 
+Total marks. 	20 marks
+
+ 
+
+Specification
+
+You have been tasked with creating a prototype PC availability reporting system for TechLabs.  
+
+The PC's in S265 and S267 are uploading the name of the currently logged on user to a service on 172.17.67.24. The data is emulated, it is not real and is not representative of what you see in the room during the assessment.
+The data from that service is available to you in JSON format from http://172.17.67.24/api/room_usage
+The url needs a query string which specifies the room number e.g.
+http://172.17.67.24/api/room_usage/?room=s265
+http://172.17.67.24/api/room_usage/?room=s267
+
+The data returned is in the format
+"pc_name": "current_user"
+
+The pc_name does not include the building name, just room_number-pc_number.
+
+Ultimately the displays will report availability in all rooms but only S265 and S267 need to be addressed in this assessment.  There are 22 PC's in S265 and 20 in S267.
+
+You need to display the number of free PC's in both S265 and S267 on the LCD's that are connected to SBC-PT S265 and SBC-PT S267 periodically so that anybody looking at the display can quickly find out (within a few seconds) where there are free PC's.  The LCD's show the number of free PC's in S265 then the number of free PC's in S267 and that cycle repeats forever.  The LCD's should show the same information at the same time or very close to each other.
+
+Upon start up, the LCD's need to display "Waiting".  This message is only displayed before the first data is received from the room monitor sbc.
+
+As soon as data is received by SBC-PT Room Monitor the LCD displays connected to the room SBC's are updated.  In this case, they show S265 has 2 PC's free.
+
+A few seconds later, the data for S267 shows 0 PC's free.
+
+A few seconds later, the data for S265 shows 22 PC's free.
+
+A few seconds later, the data for S267 shows 20 PC's free.
+
+The LCD's cycle showing the number of free PC's in S265 then the number number of free PC's in S267. No other information is displayed.
+
+ 
+
+Use the following in the Packet Tracer work space.
+
+    3 SBC's
+    1 WRT3000N Wireless Router
+    2 lcd displays
+    IoT interconnects for the LCD's
+
+The SBC's communicate using wireless via the AP (Wireless Router 1).
+The SSID of the Wireless Router 1 must be Practical1B, the WPA2-PSK key must be lCd_D1spl@y5
+
+SBC-PT Room Monitor communicates with SBC-PT S265 and SBC-PT S267 using UDP over IPv6 on port 5000.
+SBC-PT Room Monitor has both an IPv4 and IPv6 address.
+SBC-PT S265 and SBC-PT S267 only use IPv6, neither has an IPv4 address.
+
+All SBC's are on the same Layer 3 network.
+
+ 
+IPv4 addresses
+    Wireless Router 1 must be configured with 192.168.0.1/24
+    SBC-PT Room Monitor must be configured with 192.168.0.2/24
+    SBC-PT S265 and SBC-PT S267 do not use IPv4.
+
+  
+IPv6 Global unicast addresses
+    As the environment is moving to IPv6, communication between SBC-PT Room Monitor and SBC-PT S265 and between SBC-PT Room Monitor and SBC-PT S267 must be done using IPv6 only.
+    You have been given the first subnet of IPv6 network 2001:DB8:ACAD::/48
+    As other systems will require use of 2001:DB8:ACAD::/48, the address must be subnetted.
+    The first available address in the subnet has been reserved for the router interface.  The router is not configured with an IPv6 global unicast address.
+    SBC-PT Room Monitor, SBC-PT S265 and SBC-PT S267 must use the second, third and fourth addresses in the IPv6 subnet respectively.
+ 
+ 
+IPv6 Link local addresses.
+    The first available link local address has been reserved for the router interface. The router is not configured with an IPv6 link local address.
+    SBC-PT Room Monitor, SBC-PT S265 and SBC-PT S267 must use the second, third and fourth link local addresses respectively.
+    
+Hints
+
+    Periodically save your Packet Tracer file. Consider having copies of the code in Notepad++ as well.
+    Use a web browser to initially view the data on http://172.17.67.24/api/room_usage/?room=s265
+    Look at the type of object that is shown. 
+    There are three SBC's but only two programs need to be written.
+        The code that runs on the S265 SBC is identical to the code that runs on S267 SBC.
+    Consider using the in operator to test for the presence of a key when needing to work out the room number to send to the S265/7 sbc's.
+
+ 
+Deliverable
+Upload the Packet Tracer file as specified in Question 1.
